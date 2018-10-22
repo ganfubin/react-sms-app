@@ -1,10 +1,10 @@
 import 'babel-polyfill'
-import React from 'react'
+import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
-import LayoutDefault from './layout/index/index'
+import Routers from './router'
 
 ReactDOM.render(
-    <LayoutDefault/>,
-    document.getElementById('root-app')
+    <Routers></Routers>,
+    document.getElementById('root')
 );
 

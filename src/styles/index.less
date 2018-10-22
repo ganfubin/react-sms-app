@@ -1,4 +1,4 @@
-#root-app,
+#root,
 .layout-default {
   height: 100%;
 }
@@ -6,16 +6,24 @@
 .layout-default {
   display: flex;
   flex-direction: column;
+  min-height: 600px;
+  overflow: auto;
   .main-wrapper {
     flex: 1;
     display: flex;
   }
   .menu {
-    width: 200px;
+    width: 150px;
     background: #000c17;
+    a {
+      color: #fff;
+      padding-left: 10px;
+    }
   }
   .view {
     flex: 1;
+    background-color: #eee;
+    padding: 15px;
   }
 
 }
