@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
 import Loadable from 'react-loadable';
 import {Menu} from 'antd';
+import  auth from './auth'
 import CommonHeader from './components/common/header'
-import './styles/index.less'
+import './index.less'
 
 const MyLoadingComponent = ({isLoading, error}) => {
   // Handle the loading state
@@ -39,6 +40,20 @@ const AsyncSystem = Loadable({
   loading: MyLoadingComponent
 });
 
+const AsyncLogin = Loadable({
+  loader: () => import('./pages/login'),
+  loading: MyLoadingComponent
+});
+
+
+const PrivateRoute = ({component: Component, ...rest}) => {
+  if (auth.getUserInfo()) {
+    return <Route {...rest} render={() => (<Component />)}></Route>
+  } else {
+    return <Route {...rest} render={() => (<Redirect to="/login"/>)}></Route>
+  }
+};
+
 class Routers extends React.Component {
   render() {
     return (
@@ -61,10 +76,20 @@ class Routers extends React.Component {
                 </Menu.Item>
               </Menu>
               <div className="view">
-                <Route path="/" exact component={AsyncIndex}/>
-                <Route path="/analysis" exact component={AsyncAnalysis}/>
-                <Route path="/users" component={AsyncUser}/>
-                <Route path="/system" component={AsyncSystem}/>
+                <Switch>
+                  <PrivateRoute path="/" exact component={AsyncIndex}/>
+                  <PrivateRoute path="/analysis" component={AsyncAnalysis}/>
+                  <PrivateRoute path="/users" component={AsyncUser}/>
+                  <PrivateRoute path="/system" component={AsyncSystem}/>
+                  <Route path="/login" render={() => {
+                    if (auth.getUserInfo()) {
+                      return <Redirect to="/"/>
+                    } else {
+                      return <AsyncLogin/>
+                    }
+                  }}/>
+                </Switch>
+
               </div>
             </div>
           </div>
