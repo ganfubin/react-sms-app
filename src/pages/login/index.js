@@ -1,17 +1,50 @@
 import React from 'react'
-import {Button} from 'antd';
+import { withRouter } from "react-router";
+import {Form, Icon, Input, Button} from 'antd';
+const FormItem = Form.Item;
 import auth from '../../auth'
+import './index.less'
 
 class Login extends React.Component {
-  login = () => {
-    auth.setUserInfo('gan')
-  };
+  handleSubmit = () => {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        auth.setUserInfo('gan');
+        this.props.history.replace('/')
+      }
+    });
+  }
+
   render() {
+    const {getFieldDecorator} = this.props.form;
     return (
-        <div><Button type="primary" onClick={this.login}>login</Button></div>
+        <div className="login-page">
+          <Form className="login-form">
+            <FormItem>
+              {getFieldDecorator('userName', {
+                rules: [{required: true, message: '请填写用户名'}],
+              })(
+                  <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="用户名"/>
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('password', {
+                rules: [{required: true, message: '请填写密码'}],
+              })(
+                  <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                         placeholder="密码"/>
+              )}
+            </FormItem>
+            <FormItem>
+              <Button type="primary" className="login-form-button" onClick={this.handleSubmit}>登录</Button>
+            </FormItem>
+          </Form>
+
+        </div>
     )
   }
 }
+const LoginForm = Form.create()(Login);
 
 
-export default Login
+export default withRouter(LoginForm)

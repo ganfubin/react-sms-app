@@ -1,20 +1,25 @@
 // 键值key = user
 let auth = {
   getUserInfo(){
-    if (document.cookie.length > 0) {
-      let userIndex = document.cookie.indexOf("user=");
-      if (userIndex != -1) {
-        return unescape(document.cookie.substring(userIndex, document.cookie.indexOf(";", userIndex)))
-      }
-    }
-    return false
+    let cookies = this.getCookies();
+    return cookies['user'];
   },
   setUserInfo(value){
     let exp = new Date();
-    exp.setTime(exp.getTime() + 1 * 24 * 60 * 60 * 1000); //3天过期
+    exp.setTime(exp.getTime() + 1 * 24 * 60 * 60 * 1000); //24小时过期
     document.cookie = "user=" + encodeURIComponent(value)
         + ";expires=" + exp.toGMTString() + ";path=/";
     return true;
+  },
+  getCookies(){
+    let cookie = document.cookie || '';
+    cookie = cookie.split(';');
+    let obj = {};
+    cookie.forEach((item) => {
+      let arr = item.split('=');
+      obj[arr[0]] = arr[1];
+    });
+    return obj
   }
 };
 export default auth

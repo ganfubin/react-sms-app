@@ -6,7 +6,7 @@ import  auth from './auth'
 import CommonHeader from './components/common/header'
 import './index.less'
 
-const MyLoadingComponent = ({isLoading, error}) => {
+const LoadingComponent = ({isLoading, error}) => {
   // Handle the loading state
   if (isLoading) {
     return <div>Loading...</div>;
@@ -22,28 +22,51 @@ const MyLoadingComponent = ({isLoading, error}) => {
 
 const AsyncIndex = Loadable({
   loader: () => import('./pages/index'),
-  loading: MyLoadingComponent
+  loading: LoadingComponent
 });
 
 const AsyncUser = Loadable({
   loader: () => import('./pages/user'),
-  loading: MyLoadingComponent
+  loading: LoadingComponent
 });
 
 const AsyncAnalysis = Loadable({
   loader: () => import('./pages/analysis'),
-  loading: MyLoadingComponent
+  loading: LoadingComponent
 });
 
 const AsyncSystem = Loadable({
   loader: () => import('./pages/system'),
-  loading: MyLoadingComponent
+  loading: LoadingComponent
 });
 
 const AsyncLogin = Loadable({
   loader: () => import('./pages/login'),
-  loading: MyLoadingComponent
+  loading: LoadingComponent
 });
+
+
+const MenuLink = () => {
+  if (auth.getUserInfo()) {
+    return (
+        <Menu defaultSelectedKeys={['1']} mode="inline" theme="dark" inlineCollapsed={false} className="menu">
+          <Menu.Item key="1">
+            <Link to='/'>首页</Link>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <Link to='/analysis'>统计</Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link to='/users'>个人</Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Link to='/system'>系统</Link>
+          </Menu.Item>
+        </Menu>
+    )
+  }
+  return ''
+};
 
 
 const PrivateRoute = ({component: Component, ...rest}) => {
@@ -59,22 +82,9 @@ class Routers extends React.Component {
     return (
         <Router>
           <div className="layout-default">
-            <CommonHeader></CommonHeader>
+            {auth.getUserInfo() ? <CommonHeader></CommonHeader> : ''}
             <div className="main-wrapper">
-              <Menu defaultSelectedKeys={['1']} mode="inline" theme="dark" inlineCollapsed={false} className="menu">
-                <Menu.Item key="1">
-                  <Link to='/'>首页</Link>
-                </Menu.Item>
-                <Menu.Item key="2">
-                  <Link to='/analysis'>统计</Link>
-                </Menu.Item>
-                <Menu.Item key="3">
-                  <Link to='/users'>个人</Link>
-                </Menu.Item>
-                <Menu.Item key="4">
-                  <Link to='/system'>系统</Link>
-                </Menu.Item>
-              </Menu>
+              <MenuLink/>
               <div className="view">
                 <Switch>
                   <PrivateRoute path="/" exact component={AsyncIndex}/>
@@ -89,14 +99,12 @@ class Routers extends React.Component {
                     }
                   }}/>
                 </Switch>
-
               </div>
             </div>
           </div>
         </Router>
     )
   }
-
 }
 
-export  default Routers;
+export default Routers;
