@@ -10,10 +10,10 @@ class Login extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         auth.setUserInfo('gan');
-        this.props.history.replace('/')
+        window.location.href = '/';
       }
     });
-  }
+  };
 
   render() {
     const {getFieldDecorator} = this.props.form;

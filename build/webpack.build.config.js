@@ -13,6 +13,8 @@ function resolve(relatedPath) {
 module.exports = merge(webpackConfigBase, {
     mode: 'production',
     plugins: [
-        new CleanWebpackPlugin(['./dist']),
+        new CleanWebpackPlugin([resolve('../dist')], {
+          root: path.resolve(__dirname, '../')
+        }),
     ]
 });
