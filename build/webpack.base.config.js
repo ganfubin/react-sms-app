@@ -14,8 +14,8 @@ module.exports = {
   },
   output: {
     path: resolve('../dist'),
-    filename: '[name].[hash:5].chunk.js',
-    chunkFilename: '[id].[hash:5].chunk.js',
+    filename: 'js/[name].[hash:5].chunk.js',
+    chunkFilename: 'js/[name].[hash:5].chunk.js',
   },
   resolve: {
     extensions: ['.js', '.json'],
@@ -30,26 +30,33 @@ module.exports = {
     }),
     new progressbarWebpack(),
     new miniCssExtractPlugin({
-      filename: "[id].[hash:5].css",
-      chunkFilename: "[id].[hash:5].css"
+      filename: "[name].[hash].css",
+      chunkFilename: "css/[name].[hash].css"
     })
   ],
   optimization: {
     splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.less|css$/,
-          chunks: 'all',    // merge all the css chunk to one file
-          enforce: true
-        },
-        vendor: {
-          test: /node_modules/,
-          chunks: "initial",
-          name: 'vendor',
-          priority: 10
+      chunks: "initial",         // 必须三选一： "initial" | "all"(默认就是all) | "async"
+      minSize: 0,                // 最小尺寸，默认0
+      minChunks: 1,              // 最小 chunk ，默认1
+      maxAsyncRequests: 1,       // 最大异步请求数， 默认1
+      maxInitialRequests: 1,    // 最大初始化请求书，默认1
+      name: () => {
+      },              // 名称，此选项课接收 function
+      cacheGroups: {                 // 这里开始设置缓存的 chunks
+        priority: "0",                // 缓存组优先级 false | object |
+        vendor: {                   // key 为entry中定义的 入口名称
+          chunks: "initial",        // 必须三选一： "initial" | "all" | "async"(默认就是异步)
+          test: /react|lodash/,     // 正则规则验证，如果符合就提取 chunk
+          name: "vendor",           // 要缓存的 分隔出来的 chunk 名称
+          minSize: 0,
+          minChunks: 1,
+          enforce: true,
+          maxAsyncRequests: 1,       // 最大异步请求数， 默认1
+          maxInitialRequests: 1,    // 最大初始化请求书，默认1
+          reuseExistingChunk: true   // 可设置是否重用该chunk（查看源码没有发现默认值）
         }
-      },
+      }
     }
   },
   module: {
@@ -63,15 +70,19 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [ miniCssExtractPlugin.loader, "css-loader"]
+
+        use: [
+          {loader: miniCssExtractPlugin.loader},
+          {loader: 'css-loader?importLoaders=1'},
+        ]
       },
       {
         test: /\.less$/,
         exclude: /node_modules/,
         use: [
           {loader: miniCssExtractPlugin.loader},
-          {loader: "css-loader"},
-          {loader: "less-loader"},
+          {loader: 'css-loader?importLoaders=1'},
+          {loader: 'less-loader', options: {javascriptEnabled: true}},
           {
             loader: "postcss-loader",
             options: {
@@ -95,7 +106,8 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]'
+          name: '[name].[ext]?[hash]',
+          outputPath: 'images/'
         }
       },
     ]
