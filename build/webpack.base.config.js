@@ -15,7 +15,7 @@ module.exports = {
   output: {
     path: resolve('../dist'),
     filename: '[name].[hash:5].chunk.js',
-    chunkFilename: '[name].[hash:5].chunk.js',
+    chunkFilename: '[id].[hash:5].chunk.js',
   },
   resolve: {
     extensions: ['.js', '.json'],
@@ -30,18 +30,18 @@ module.exports = {
     }),
     new progressbarWebpack(),
     new miniCssExtractPlugin({
-      filename: "[name].[hash:5].css",
+      filename: "[id].[hash:5].css",
       chunkFilename: "[id].[hash:5].css"
     })
   ],
   optimization: {
     splitChunks: {
       cacheGroups: {
-        commons: {
-          chunks: "initial",
-          name: "common",
-          minChunks: 2,
-          minSize: 0,
+        styles: {
+          name: 'styles',
+          test: /\.less|css$/,
+          chunks: 'all',    // merge all the css chunk to one file
+          enforce: true
         },
         vendor: {
           test: /node_modules/,
@@ -62,7 +62,12 @@ module.exports = {
         }
       },
       {
-        test: /\.(less|css)$/,
+        test: /\.css$/,
+        use: [ miniCssExtractPlugin.loader, "css-loader"]
+      },
+      {
+        test: /\.less$/,
+        exclude: /node_modules/,
         use: [
           {loader: miniCssExtractPlugin.loader},
           {loader: "css-loader"},
@@ -83,7 +88,8 @@ module.exports = {
                 })
               ]
             }
-          }]
+          }
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

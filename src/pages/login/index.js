@@ -9,6 +9,7 @@ class Login extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values);
         auth.setUserInfo('gan');
         window.location.href = '/';
       }

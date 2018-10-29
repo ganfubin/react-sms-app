@@ -1,7 +1,12 @@
 import React from 'react';
 import './index.less'
+import  auth from '../../../auth'
 
 class commonHeader extends React.Component {
+    logOut = () => {
+      auth.setUserInfo('');
+      window.location.href = '/login'
+    };
     render(){
         return (
             <div className="header">
@@ -11,7 +16,7 @@ class commonHeader extends React.Component {
                         <img src="//as.test.zbjdev.com/static/nodejs-caishui-admin-web/zbjimg.571c298.jpg"></img>
                     </div>
                     <span className="name-info">欢迎您，<label className="name">admin</label></span>
-                    <a className="btn-login-out">退出</a>
+                    <a className="btn-login-out" onClick={this.logOut}>退出</a>
                 </div>
             </div>
         )

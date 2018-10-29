@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
+import React from 'react'
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import Loadable from 'react-loadable';
-import {Menu} from 'antd';
 import  auth from './auth'
 import CommonHeader from './components/common/header'
+import CommonMenu from './components/common/menu'
 import './index.less'
 
 const LoadingComponent = ({isLoading, error}) => {
@@ -46,29 +46,6 @@ const AsyncLogin = Loadable({
 });
 
 
-const MenuLink = () => {
-  if (auth.getUserInfo()) {
-    return (
-        <Menu defaultSelectedKeys={['1']} mode="inline" theme="dark" inlineCollapsed={false} className="menu">
-          <Menu.Item key="1">
-            <Link to='/'>首页</Link>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Link to='/analysis'>统计</Link>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Link to='/users'>个人</Link>
-          </Menu.Item>
-          <Menu.Item key="4">
-            <Link to='/system'>系统</Link>
-          </Menu.Item>
-        </Menu>
-    )
-  }
-  return ''
-};
-
-
 const PrivateRoute = ({component: Component, ...rest}) => {
   if (auth.getUserInfo()) {
     return <Route {...rest} render={() => (<Component />)}></Route>
@@ -84,7 +61,7 @@ class Routers extends React.Component {
           <div className="layout-default">
             {auth.getUserInfo() ? <CommonHeader></CommonHeader> : ''}
             <div className="main-wrapper">
-              <MenuLink/>
+              <CommonMenu/>
               <div className="view">
                 <Switch>
                   <PrivateRoute path="/" exact component={AsyncIndex}/>
