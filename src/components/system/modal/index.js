@@ -1,10 +1,9 @@
 import React from 'react';
 import {Modal} from 'antd';
-class SmsTemplate extends React.Component {
+class SystemModal extends React.Component {
   constructor() {
     super();
-    this.state = {
-    };
+    this.state = {};
   }
 
   handleOk = () => {
@@ -13,12 +12,13 @@ class SmsTemplate extends React.Component {
   handleCancel = () => {
     this.props.onSrue(false);
   };
+
   render() {
-    let visible = this.props.visible;
+    let {visible, title} = this.props;
     return (
         <Modal
-            title="请选择短信模板"
-            style={{width: "800px"}}
+            title={title}
+            width={800}
             okText="确定"
             cancelText="取消"
             visible={visible}
@@ -32,4 +32,4 @@ class SmsTemplate extends React.Component {
   }
 }
 
-export default SmsTemplate
+export default SystemModal

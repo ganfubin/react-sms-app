@@ -1,4 +1,4 @@
-# react 练习项目
+# react 短信营销系统
 > `webpack4` 搭建 `react` `antd`开发环境
 
 # react-router4

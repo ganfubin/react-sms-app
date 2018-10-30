@@ -1,10 +1,33 @@
 import React from 'react'
-import {Table, Button} from 'antd';
+import {Table, Button, Form, Input} from 'antd';
+const FormItem = Form.Item;
+import SystemModal from '../../components/system/modal'
 import './index.less'
 
 
 class System extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      title: '添加',
+      modalType: 'add',
+      visible: false
+    }
+  }
 
+  openModal = (type) => {
+    this.setState({
+      title: type === 'add' ? '添加' : '编辑',
+      modalType: type,
+      visible: true
+    })
+  };
+
+  modalSure = () => {
+    this.setState({
+      visible: false
+    })
+  };
 
   render() {
     const dataSource = [{
@@ -33,7 +56,8 @@ class System extends React.Component {
       width: 150,
       render: (text, record) => (
           <span>
-            <Button size="small" type="primary" className="btn-edit">编辑</Button>
+            <Button size="small" type="primary" className="btn-edit"
+                    onClick={this.openModal.bind(this, 'edit')}>编辑</Button>
             <Button size="small" type="danger" className="btn-del">删除</Button>
           </span>
       )
@@ -41,7 +65,16 @@ class System extends React.Component {
 
     return (
         <div className="system-page">
+          <Form layout="inline" className="form-layout">
+            <FormItem>
+              <Input placeholder="模板名称"/>
+            </FormItem>
+            <FormItem>
+              <Button type="primary">查询</Button>
+            </FormItem>
+          </Form>
           <Table dataSource={dataSource} columns={columns}/>
+          <SystemModal visible={this.state.visible} onSrue={this.modalSure}></SystemModal>
         </div>
     )
   }
