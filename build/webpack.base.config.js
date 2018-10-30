@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const progressbarWebpack = require('progress-bar-webpack-plugin');
+
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
 
 function resolve(relatedPath) {
@@ -28,7 +28,6 @@ module.exports = {
       title: '短信营销系统',
       inject: true
     }),
-    new progressbarWebpack(),
     new miniCssExtractPlugin({
       filename: "[name].[hash].css",
       chunkFilename: "css/[name].[hash].css"
