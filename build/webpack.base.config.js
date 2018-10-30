@@ -78,7 +78,12 @@ module.exports = {
         test: /\.less$/,
         exclude: /node_modules/,
         use: [
-          {loader: miniCssExtractPlugin.loader},
+          {
+            loader: miniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../'
+            }
+          },
           {loader: 'css-loader?importLoaders=1'},
           {loader: 'less-loader', options: {javascriptEnabled: true}},
           {
