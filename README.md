@@ -19,4 +19,16 @@
 
 
 # 遇到的坑
-> `antd` 上不能加less-loader [https://github.com/ant-design/ant-design/issues/12777]
+> `antd` 加载css 上不能加less-loader [https://github.com/ant-design/ant-design/issues/12777]
+
+> `antd` 使用 `mini-css-extract-plugin` 配合使用了
+```javascript
+    {
+        test: /\.css$/,
+        use: [
+          {loader: miniCssExtractPlugin.loader},
+          {loader: 'css-loader?importLoaders=1'},
+        ]
+    }
+
+```
