@@ -33,6 +33,8 @@
 
 ```
 
+> `nginx` 刷新页面404 [https://blog.csdn.net/zjcjava/article/details/78255018?readlog]
+
 # 部署
 > `nginx` 做静态文件服务器，开一个8090(由于该机子还跑着其他服务)端口
 
