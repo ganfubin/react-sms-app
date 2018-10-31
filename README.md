@@ -41,13 +41,15 @@
         listen       8090;
         server_name  _;
         root   /home/sms/;
+        index index.html;
         #charset koi8-r;
 
         #access_log  logs/host.access.log  main;
 
         location / {
             root   /home/sms/;
-            index  index.html index.htm;
+            try_files $uri $uri/ /index.html last;
+            index index.html;
         }
 
         #error_page  404              /404.html;
