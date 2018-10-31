@@ -1,4 +1,19 @@
-// 键值key = user
+import React from 'react'
+
+const LoadingComponent = ({isLoading, error}) => {
+  // Handle the loading state
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  // Handle the error state
+  else if (error) {
+    return <div>Sorry, there was a problem loading the page.</div>;
+  }
+  else {
+    return null;
+  }
+};
+
 let auth = {
   getUserInfo(){
     let cookies = this.getCookies();
@@ -22,4 +37,9 @@ let auth = {
     return obj
   }
 };
-export default auth
+
+
+export   {
+  LoadingComponent,
+  auth
+}

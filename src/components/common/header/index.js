@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.less'
-import  auth from '../../../auth'
+import {auth} from '@/utils'
 
 class commonHeader extends React.Component {
     logOut = () => {
