@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from "react-router";
 import {Form, Icon, Input, Button} from 'antd';
 const FormItem = Form.Item;
-import auth from '../../auth'
+import {auth} from '@/utils'
 import './index.less'
 
 class Login extends React.Component {

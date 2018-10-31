@@ -1,7 +1,7 @@
 import React from 'react';
 import {Menu} from 'antd';
 import { Link } from 'react-router-dom';
-import  auth from '../../../auth'
+import {auth} from '@/utils'
 
 
 export default  () => {

@@ -19,7 +19,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.json'],
-    alias: {}
+    alias: {
+      "@": resolve('../src')
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
