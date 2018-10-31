@@ -21,11 +21,7 @@ class Routers extends React.Component {
         <Router>
           <Switch>
             <Route path="/login" render={() => {
-              if (auth.getUserInfo()) {
-                return <Redirect to="/"/>
-              } else {
-                return <Login/>
-              }
+              return auth.getUserInfo() ? <Redirect to="/"/> : <Login/>
             }}/>
             <PrivateRoute path="/" component={Content}/>
           </Switch>
