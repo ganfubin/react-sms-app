@@ -1,31 +1,39 @@
 import React from 'react'
 import {Table, Button, Form, Input} from 'antd';
 const FormItem = Form.Item;
+import {authCookie} from '@/mixins';
 import SystemModal from '../../components/system/modal'
 import './index.less'
 
-
+@authCookie
 class System extends React.Component {
   constructor() {
     super();
     this.state = {
-      title: '添加',
-      modalType: 'add',
-      visible: false
+      modalData: {
+        title: '添加',
+        modalType: 'add',
+        visible: false
+      }
     }
   }
 
-  openModal = (type) => {
+  openModal = (type, data) => {
     this.setState({
-      title: type === 'add' ? '添加' : '编辑',
-      modalType: type,
-      visible: true
+      modalData: {
+        title: type === 'add' ? '添加' : '编辑',
+        modalType: type,
+        visible: true,
+        rowData: data
+      }
     })
   };
 
   modalSure = () => {
     this.setState({
-      visible: false
+      modalData: {
+        visible: false
+      }
     })
   };
 
@@ -57,7 +65,7 @@ class System extends React.Component {
       render: (text, record) => (
           <span>
             <Button size="small" type="primary" className="btn-edit"
-                    onClick={this.openModal.bind(this, 'edit')}>编辑</Button>
+                    onClick={this.openModal.bind(this, 'edit', record)}>编辑</Button>
             <Button size="small" type="danger" className="btn-del">删除</Button>
           </span>
       )
@@ -74,7 +82,7 @@ class System extends React.Component {
             </FormItem>
           </Form>
           <Table dataSource={dataSource} columns={columns}/>
-          <SystemModal visible={this.state.visible} onSrue={this.modalSure}></SystemModal>
+          <SystemModal modalData={this.state.modalData} onSrue={this.modalSure}></SystemModal>
         </div>
     )
   }

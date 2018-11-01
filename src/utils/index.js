@@ -21,7 +21,7 @@ let auth = {
   },
   setUserInfo(value){
     let exp = new Date();
-    exp.setTime(exp.getTime() + 1 * 24 * 60 * 60 * 1000); //24小时过期
+    exp.setTime(exp.getTime() + 1 * 60 * 60 * 1000); //2小时过期
     document.cookie = "user=" + encodeURIComponent(value)
         + ";expires=" + exp.toGMTString() + ";path=/";
     return true;

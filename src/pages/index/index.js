@@ -4,8 +4,10 @@ const FormItem = Form.Item;
 const {TextArea} = Input;
 
 import SmsTemplate from '../../components/index/sms-template'
+import {authCookie} from '@/mixins'
 import './index.less';
 
+@authCookie
 class Index extends React.Component {
   constructor() {
     super();
