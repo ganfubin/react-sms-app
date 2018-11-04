@@ -1,14 +1,15 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 function resolve(relatedPath) {
   return path.join(__dirname, relatedPath)
 }
 
 module.exports = {
+  context: path.resolve(__dirname, '../'),
   entry: {
     app: resolve('../src/main.js')
   },
@@ -24,10 +25,15 @@ module.exports = {
     }
   },
   plugins: [
+    new webpack.DllReferencePlugin({
+      manifest: path.resolve(__dirname, '..', 'dist', 'manifest.json')
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: resolve('../index.html'),
       title: '短信营销系统',
+      template: resolve('../index.html'),
+      vendor: 'js/vendor.dll.js',
+      hash: true,
       inject: true
     }),
     new miniCssExtractPlugin({
@@ -36,26 +42,33 @@ module.exports = {
     })
   ],
   optimization: {
+    minimizer: [new UglifyJsPlugin({
+      test: /\.js(\?.*)?$/i
+    })],
+    runtimeChunk: {
+      name: "manifest"
+    },
     splitChunks: {
       chunks: "initial",         // 必须三选一： "initial" | "all"(默认就是all) | "async"
-      minSize: 0,                // 最小尺寸，默认0
-      minChunks: 1,              // 最小 chunk ，默认1
+      minSize: 1000,                // 最小尺寸，默认0
+      minChunks: 2,              // 最小 chunk ，默认1
       maxAsyncRequests: 1,       // 最大异步请求数， 默认1
       maxInitialRequests: 1,    // 最大初始化请求书，默认1
-      name: () => {
-      },              // 名称，此选项课接收 function
+      name: true,              // 名称，此选项课接收 function
       cacheGroups: {                 // 这里开始设置缓存的 chunks
-        priority: "0",                // 缓存组优先级 false | object |
-        vendor: {                   // key 为entry中定义的 入口名称
-          chunks: "initial",        // 必须三选一： "initial" | "all" | "async"(默认就是异步)
-          test: /react|lodash/,     // 正则规则验证，如果符合就提取 chunk
-          name: "vendor",           // 要缓存的 分隔出来的 chunk 名称
-          minSize: 0,
-          minChunks: 1,
-          enforce: true,
-          maxAsyncRequests: 1,       // 最大异步请求数， 默认1
-          maxInitialRequests: 1,    // 最大初始化请求书，默认1
-          reuseExistingChunk: true   // 可设置是否重用该chunk（查看源码没有发现默认值）
+        common: {
+          chunks: "initial",
+          name: "common",
+          minChunks: 2,
+          maxInitialRequests: 5,
+          minSize: 0
+        },
+        vendor: {
+          test: /node_modules/,
+          chunks: "initial",
+          name: "vendor",
+          priority: 1,
+          enforce: true
         }
       }
     }
@@ -109,11 +122,39 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]',
-          outputPath: 'images/'
-        }
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]?[hash]',
+              outputPath: 'images/'
+            }
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              },
+              // optipng.enabled: false will disable optipng
+              optipng: {
+                enabled: false,
+              },
+              pngquant: {
+                quality: '65-90',
+                speed: 4
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              // the webp option will enable WEBP
+              webp: {
+                quality: 75
+              }
+            }
+          },
+        ]
       },
     ]
   }
