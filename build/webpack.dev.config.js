@@ -9,7 +9,6 @@ module.exports = merge(webpackConfigBase, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
   ],
-  //devtool: 'source-map',
   devServer: {
     historyApiFallback: true,
     overlay: true,
