@@ -35,8 +35,7 @@ class SystemModal extends React.Component {
   handleOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        let {name, content} = this.state;
-        this.props.onSrue(true, {name, content})
+        this.props.onSrue(true, values)
       }
     });
 
