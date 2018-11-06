@@ -73,14 +73,17 @@ class System extends React.Component {
 
     return (
         <div className="system-page">
-          <Form layout="inline" className="form-layout">
-            <FormItem>
-              <Input placeholder="模板名称"/>
-            </FormItem>
-            <FormItem>
-              <Button type="primary">查询</Button>
-            </FormItem>
-          </Form>
+          <div className="form-layout">
+            <Form layout="inline" className="inline-block">
+              <FormItem>
+                <Input placeholder="模板名称"/>
+              </FormItem>
+              <FormItem>
+                <Button type="primary">查询</Button>
+              </FormItem>
+            </Form>
+            <Button type="primary" className="form-layout-btn" onClick={this.openModal.bind(this, 'add')}>添加</Button>
+          </div>
           <Table dataSource={dataSource} columns={columns}/>
           <SystemModal modalData={this.state.modalData} onSrue={this.modalSure}></SystemModal>
         </div>
