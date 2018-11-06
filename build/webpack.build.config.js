@@ -19,7 +19,7 @@ module.exports = merge(webpackConfigBase, {
     new progressbarWebpack(),
     new CleanWebpackPlugin([resolve('../dist')], {
       root: path.resolve(__dirname, '../'),
-      exclude: ['manifest.json', 'js/vendor.dll.js'],
+      exclude: ['manifest.json'],
     }),
   ]
 });

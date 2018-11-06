@@ -1,5 +1,8 @@
 import React from 'react';
+import {immutableRenderDecorator} from 'react-immutable-render-mixin';
 import {Modal} from 'antd';
+
+@immutableRenderDecorator
 class SmsTemplate extends React.Component {
   constructor() {
     super();

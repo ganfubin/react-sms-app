@@ -3,6 +3,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 function resolve(relatedPath) {
   return path.join(__dirname, relatedPath)
@@ -25,6 +26,10 @@ module.exports = {
     }
   },
   plugins: [
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, '../static'),
+      to: path.resolve(__dirname, '../dist'),
+    }]),
     new webpack.DllReferencePlugin({
       manifest: path.resolve(__dirname, '..', 'dist', 'manifest.json')
     }),
@@ -39,7 +44,7 @@ module.exports = {
     new miniCssExtractPlugin({
       filename: "[name].[hash].css",
       chunkFilename: "css/[name].[hash].css"
-    })
+    }),
   ],
   optimization: {
     minimizer: [new UglifyJsPlugin({

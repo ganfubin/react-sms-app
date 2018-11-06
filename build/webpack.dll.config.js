@@ -11,7 +11,7 @@ module.exports = {
   },
   mode: 'production',
   output: {
-    path: resolve('dist'),
+    path: resolve('static'),
     filename: 'js/[name].dll.js',
     library: '_dll_[name]'
   },

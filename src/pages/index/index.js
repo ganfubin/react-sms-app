@@ -3,7 +3,7 @@ import {Form, Input, Button, Row, Col} from 'antd';
 const FormItem = Form.Item;
 const {TextArea} = Input;
 
-import SmsTemplate from '../../components/index/sms-template'
+import SmsTemplate from '@/components/index/sms-template'
 import {authCookie} from '@/mixins'
 import './index.less';
 
