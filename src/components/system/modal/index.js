@@ -9,8 +9,8 @@ const FormItem = Form.Item;
   mapPropsToFields (props) {
     let {name, content} = props.modalData.rowData || {};
     return {
-      name: Form.createFormField({name}),
-      content: Form.createFormField({content})
+      name: Form.createFormField({value: name}),
+      content: Form.createFormField({value: content})
     };
   }
 })
@@ -53,7 +53,7 @@ class SystemModal extends React.Component {
       wrapperCol: {span: 14}
     };
     return (
-        visible && <Modal
+        <Modal
             title={title}
             width={800}
             okText="确定"
@@ -67,7 +67,6 @@ class SystemModal extends React.Component {
           <Form layout="horizontal">
             <FormItem label="模板名称" {...formItemLayout}>
               {getFieldDecorator('name', {
-                initialValue: this.state.name,
                 rules: [{
                   required: true,
                   message: '请填写模板名称',
@@ -78,7 +77,6 @@ class SystemModal extends React.Component {
             </FormItem>
             <FormItem label="模板内容" {...formItemLayout}>
               {getFieldDecorator('content', {
-                initialValue: this.state.content,
                 rules: [{
                   required: true,
                   message: '请填写模板内容',
