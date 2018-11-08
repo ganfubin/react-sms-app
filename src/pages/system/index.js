@@ -74,11 +74,11 @@ class System extends React.Component {
       } else {
         dataSource.push({...data, key: (new Date).getTime()})
       }
+      notification.success({
+        message: '系统提示',
+        description: '操作成功'
+      });
     }
-    notification.success({
-      message: '系统提示',
-      description: '操作成功'
-    });
     this.setState({
       modalData: {
         visible: false,

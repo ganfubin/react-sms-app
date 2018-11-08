@@ -46,7 +46,6 @@ module.exports = {
     }),
   ],
   optimization: {
-    minimizer: true,
     runtimeChunk: {
       name: "manifest"
     },
