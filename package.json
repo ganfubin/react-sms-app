@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "webpack-dev-server --config build/webpack.dev.config.js --progress --color",
     "build": "webpack --config build/webpack.build.config.js",
-    "dll": "webpack --config build/webpack.dll.config",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

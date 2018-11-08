@@ -29,14 +29,10 @@ module.exports = {
       from: path.resolve(__dirname, '../static'),
       to: path.resolve(__dirname, '../dist'),
     }]),
-    new webpack.DllReferencePlugin({
-      manifest: path.resolve(__dirname, '..', 'dist', 'manifest.json')
-    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       title: '短信营销系统',
       template: resolve('../index.html'),
-      vendor: 'js/vendor.dll.js',
       hash: true,
       inject: true
     }),
