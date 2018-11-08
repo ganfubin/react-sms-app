@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM, {findDOMNode} from 'react-dom';
 import {Map, List} from 'immutable';
 import {Table, Button, Form, Input, notification} from 'antd';
 const FormItem = Form.Item;
@@ -57,6 +58,8 @@ class System extends React.Component {
   };
 
   handleSearch = () => {
+    let dom = ReactDOM.findDOMNode(this);
+    console.log(dom);
     this.setState({
       vis: true
     })
