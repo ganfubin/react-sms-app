@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Form, Input} from 'antd';
+import {Modal, Form, Input, Switch} from 'antd';
 import {immutableRenderDecorator} from 'react-immutable-render-mixin';
 const {TextArea} = Input;
 const FormItem = Form.Item;
@@ -7,10 +7,11 @@ const FormItem = Form.Item;
 @immutableRenderDecorator
 @Form.create({
   mapPropsToFields (props) {
-    let {name, content} = props.modalData.rowData || {};
+    let {name, content, isEnable} = props.modalData.rowData || {};
     return {
       name: Form.createFormField({value: name}),
-      content: Form.createFormField({value: content})
+      content: Form.createFormField({value: content}),
+      isEnable: Form.createFormField({value: isEnable === undefined ? 1 : isEnable})
     };
   }
 })
@@ -25,8 +26,9 @@ class SystemModal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {name, content} = nextProps.modalData.rowData || {};
+    const {key, name, content} = nextProps.modalData.rowData || {};
     this.setState({
+      key,
       name,
       content
     });
@@ -35,13 +37,13 @@ class SystemModal extends React.Component {
   handleOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.onSrue(true, values)
+        this.props.onSrue({...values, key: this.state.key})
       }
     });
 
   };
   handleCancel = () => {
-    this.props.onSrue(false);
+    this.props.onSrue();
   };
 
   render() {
@@ -83,6 +85,11 @@ class SystemModal extends React.Component {
                 }],
               })(
                   <TextArea placeholder="模板内容" autosize={{minRows: 5, maxRows: 5}}/>
+              )}
+            </FormItem>
+            <FormItem label="是否启用" {...formItemLayout}>
+              {getFieldDecorator('isEnable', {valuePropName: 'checked'})(
+                  <Switch />
               )}
             </FormItem>
           </Form>

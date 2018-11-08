@@ -6,6 +6,7 @@ const webpackConfigBase = require('./webpack.base.config');
 
 module.exports = merge(webpackConfigBase, {
   mode: 'development',
+  devtool: 'inline-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
   ],

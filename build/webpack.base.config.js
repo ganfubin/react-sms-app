@@ -2,8 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function resolve(relatedPath) {
   return path.join(__dirname, relatedPath)
@@ -47,15 +46,13 @@ module.exports = {
     }),
   ],
   optimization: {
-    minimizer: [new UglifyJsPlugin({
-      test: /\.js(\?.*)?$/i
-    })],
+    minimizer: true,
     runtimeChunk: {
       name: "manifest"
     },
     splitChunks: {
       chunks: "initial",         // 必须三选一： "initial" | "all"(默认就是all) | "async"
-      minSize: 1000,                // 最小尺寸，默认0
+      minSize: 30000,                // 最小尺寸，默认0
       minChunks: 2,              // 最小 chunk ，默认1
       maxAsyncRequests: 1,       // 最大异步请求数， 默认1
       maxInitialRequests: 1,    // 最大初始化请求书，默认1
