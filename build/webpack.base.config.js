@@ -25,10 +25,10 @@ module.exports = {
     }
   },
   plugins: [
-    new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, '../static'),
-      to: path.resolve(__dirname, '../dist'),
-    }]),
+    // new CopyWebpackPlugin([{
+    //   from: path.resolve(__dirname, '../static'),
+    //   to: path.resolve(__dirname, '../dist'),
+    // }]),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       title: '短信营销系统',
