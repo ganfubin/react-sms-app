@@ -5,11 +5,11 @@ const FormItem = Form.Item;
 import {auth} from '@/utils'
 import './index.less'
 
+
 class Login extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         auth.setUserInfo('gan');
         window.location.href = '/';
       }

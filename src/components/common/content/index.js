@@ -23,6 +23,11 @@ const AsyncAnalysis = Loadable({
   loading: LoadingComponent
 });
 
+const AsyncTemplate = Loadable({
+  loader: () => import('@/pages/template'),
+  loading: LoadingComponent
+});
+
 const AsyncSystem = Loadable({
   loader: () => import('@/pages/system'),
   loading: LoadingComponent
@@ -46,8 +51,9 @@ class Content extends Component {
             <div className="view">
               <PrivateRoute path="/" exact component={AsyncIndex}/>
               <PrivateRoute path="/analysis" exact component={AsyncAnalysis}/>
-              <PrivateRoute path="/users" exact component={AsyncUser}/>
               <PrivateRoute path="/system" exact component={AsyncSystem}/>
+              <PrivateRoute path="/template" exact component={AsyncTemplate}/>
+              <PrivateRoute path="/users" exact component={AsyncUser}/>
             </div>
           </div>
         </div>

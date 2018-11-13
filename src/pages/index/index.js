@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {Form, Input, Button, Row, Col} from 'antd';
 const FormItem = Form.Item;
 const {TextArea} = Input;
@@ -17,6 +18,10 @@ class Index extends React.Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this)
+  }
+
   showSMStemplate = () => {
     this.setState({
       visible: true
@@ -26,6 +31,10 @@ class Index extends React.Component {
   templateSure = (visible) => {
     this.setState({visible: false});
   };
+
+  changeName = () => {
+    this.props.infoChangeName('ganfubin')
+  }
 
   render() {
     let formLayout = {
@@ -45,14 +54,28 @@ class Index extends React.Component {
               </Row>
             </FormItem>
             <FormItem className="send-btn-container">
-              <Button type="primary">发送</Button>
+              <Button type="primary" onClick={this.changeName}>发送</Button>
             </FormItem>
           </Form>
+          <div>{this.props.store.info.name}</div>
           <SmsTemplate visible={this.state.visible} onSrue={this.templateSure}></SmsTemplate>
         </div>
     )
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    store: state
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    infoChangeName: (data) => {
+      dispatch({type: 'changeName', payload: data})
+    }
+  }
+};
 
 
-export default Index
+export default connect(mapStateToProps, mapDispatchToProps)(Index)
