@@ -85,8 +85,8 @@ class System extends React.Component {
     this.setState({
       modalData: {
         visible: false,
-        dataSource
-      }
+      },
+      dataSource
     })
   };
 

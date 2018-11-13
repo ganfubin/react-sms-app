@@ -49,7 +49,7 @@ class Index extends React.Component {
             </FormItem>
             <FormItem label="短信内容" {...formLayout} required className="text-message">
               <Row gutter={8}>
-                <Col span={20}><TextArea placeholder="短语内容"/></Col>
+                <Col span={20}><TextArea placeholder="短信内容"/></Col>
                 <Col span={4}><Button type="primary" onClick={this.showSMStemplate}>选择短信模板</Button></Col>
               </Row>
             </FormItem>
@@ -57,7 +57,6 @@ class Index extends React.Component {
               <Button type="primary" onClick={this.changeName}>发送</Button>
             </FormItem>
           </Form>
-          <div>{this.props.store.info.name}</div>
           <SmsTemplate visible={this.state.visible} onSrue={this.templateSure}></SmsTemplate>
         </div>
     )

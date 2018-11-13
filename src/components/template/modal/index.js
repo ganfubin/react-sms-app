@@ -11,7 +11,7 @@ const FormItem = Form.Item;
     return {
       name: Form.createFormField({value: name}),
       content: Form.createFormField({value: content}),
-      isEnable: Form.createFormField({value: isEnable === undefined ? 1 : isEnable})
+      isEnable: Form.createFormField({value: isEnable ? true : false})
     };
   }
 })
@@ -37,7 +37,7 @@ class SystemModal extends React.Component {
   handleOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.onSrue({...values, key: this.state.key})
+        this.props.onSrue({...values, key: this.state.key, isEnable: values.isEnable ? 1 : 0})
       }
     });
 
