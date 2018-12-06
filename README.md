@@ -27,6 +27,8 @@
 # 遇到的坑
 > `antd` 加载css 上不能加less-loader [https://github.com/ant-design/ant-design/issues/12777]
 
+> `react-hot-loader` 局部热更新代码
+
 > `antd` 使用 `mini-css-extract-plugin` 配合使用了
 ```javascript
     {

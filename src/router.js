@@ -1,9 +1,11 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {hot} from 'react-hot-loader'
 import {auth} from '@/utils';
 
 import Content from '@/components/common/content';
 import Login from '@/pages/login'
+
 
 
 const PrivateRoute = ({component: Component, ...rest}) => {
@@ -14,7 +16,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
   }
 };
 
-
+@hot(module)
 class Routers extends React.Component {
   render() {
     return (
