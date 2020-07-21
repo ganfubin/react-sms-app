@@ -1,6 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
-import {hot} from 'react-hot-loader'
+import { hot } from 'react-hot-loader';
 import {auth} from '@/utils';
 
 import Content from '@/components/common/content';

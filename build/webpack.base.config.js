@@ -1,8 +1,6 @@
-const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function resolve(relatedPath) {
   return path.join(__dirname, relatedPath)
@@ -10,7 +8,7 @@ function resolve(relatedPath) {
 
 module.exports = {
   entry: {
-    app: resolve('../src/main.js')
+    app: ['react-hot-loader/patch', resolve('../src/main.js')]
   },
   output: {
     path: resolve('../dist'),
@@ -20,7 +18,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json'],
     alias: {
-      "@": resolve('../src')
+      "@": resolve('../src'),
+      "react-dom": "@hot-loader/react-dom"
     }
   },
   plugins: [
@@ -41,17 +40,9 @@ module.exports = {
     }),
   ],
   optimization: {
-    runtimeChunk: {
-      name: "manifest"
-    },
     splitChunks: {
-      chunks: "initial",         // 必须三选一： "initial" | "all"(默认就是all) | "async"
-      minSize: 30000,                // 最小尺寸，默认0
-      minChunks: 2,              // 最小 chunk ，默认1
-      maxAsyncRequests: 1,       // 最大异步请求数， 默认1
-      maxInitialRequests: 1,    // 最大初始化请求书，默认1
-      name: true,              // 名称，此选项课接收 function
-      cacheGroups: {                 // 这里开始设置缓存的 chunks
+      chunks: "all",
+      cacheGroups: {
         common: {
           chunks: "initial",
           name: "common",
@@ -59,13 +50,11 @@ module.exports = {
           maxInitialRequests: 5,
           minSize: 0
         },
-        vendor: {
-          test: /node_modules/,
-          chunks: "initial",
-          name: "vendor",
-          priority: 1,
-          enforce: true
-        }
+        antd: {
+          name: 'antd',
+          priority: 20,
+          test: /[\/]node_modules[\/]antd[\/]/,
+        },
       }
     }
   },
@@ -75,17 +64,14 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: ['react-hot-loader/babel'],
-          }
+          loader: 'babel-loader'
         }
       },
       {
         test: /\.css$/,
         use: [
           {loader: miniCssExtractPlugin.loader},
-          {loader: 'css-loader?importLoaders=1'},
+          {loader: 'css-loader'},
         ]
       },
       {
@@ -98,22 +84,13 @@ module.exports = {
               publicPath: '../'
             }
           },
-          {loader: 'css-loader?importLoaders=1'},
+          {loader: 'css-loader'},
           {loader: 'less-loader', options: {javascriptEnabled: true}},
           {
             loader: "postcss-loader",
             options: {
               plugins: [
-                require("autoprefixer")({
-                  "browsers": [
-                    "defaults",
-                    "not ie < 11",
-                    "last 2 versions",
-                    "> 1%",
-                    "iOS 7",
-                    "last 3 iOS versions"
-                  ]
-                })
+                require("autoprefixer")
               ]
             }
           }
